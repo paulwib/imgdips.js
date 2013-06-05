@@ -79,3 +79,9 @@ attribute name is based on the ratio name with all non-alphanumerics removed. So
 `@2x`, `_2x` and `-2x` would all map to `data-2x`. But `@2times` would map to
 `data-2times`.
 
+##License
+
+Copyright 2013 Paul Willoughby
+
+Licensed under the MIT License
+
