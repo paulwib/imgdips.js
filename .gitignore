@@ -1,0 +1,9 @@
+*.swp
+*.db
+*.bak
+*.log
+*.DS_Store
+*.session
+*.lock
+components*
+vendor*
