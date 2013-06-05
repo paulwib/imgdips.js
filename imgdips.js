@@ -6,7 +6,7 @@
  */
 ImgDips = (function() {
 
-	var settings = {
+	var fileSuffix, settings = {
 		// Image selector
 		selector: '.dips',
 		// Map suffixes to pixel ratios, the highest matched ratio will win
@@ -30,10 +30,11 @@ ImgDips = (function() {
 			}
 		}
 
-		var fileSuffix = pickFileSuffix(settings.pixelRatioSuffixes);
+		fileSuffix = pickFileSuffix(settings.pixelRatioSuffixes);
 		if(!fileSuffix){
 			return false;
 		}
+		document.getElementsByTagName('body')[0].setAttribute('data-dips-suffix', fileSuffix);
 		return swapImages(settings.selector, fileSuffix);
 	}
 
@@ -54,6 +55,16 @@ ImgDips = (function() {
 			}
 		}
 		return useSuffix;
+	}
+
+	/**
+	 * Get the file suffix
+	 *
+	 * Useful for other scripts to access without having to run all these
+	 * kind of tests again.
+	 */
+	function getSuffix() {
+		return fileSuffix;
 	}
 
 	/**
@@ -123,7 +134,8 @@ ImgDips = (function() {
 
 	// Return public interface
 	return {
-		init: init
+		init: init,
+		getSuffix: getSuffix
 	};
 
 })();

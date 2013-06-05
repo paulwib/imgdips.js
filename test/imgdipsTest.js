@@ -77,3 +77,16 @@ asyncTest('Test a different selector', function(){
 	setTimeout(check, 100);
 });
 
+test('Test getting suffix', function(){
+	// We're loading even when DIP ratio is >= 1 so works on any device
+	ImgDips.init({
+		selector: 'IMG',
+		pixelRatioSuffixes: {
+			'@1x': 1,
+			'@2x': 1.5,
+			'@4x': 3
+		}
+	});
+	equal(ImgDips.getSuffix(), '@1x', 'getSuffix() returns suffix');
+	equal($('body').data('dips-suffix'), '@1x', 'Current suffix stored in data attribute on body');
+});
