@@ -1,0 +1,9 @@
+{
+  "framework" : "qunit",
+  "src_files": [
+    "imgdips.js",
+    "components/jquery/jquery.js",
+    "test/imgdipsTest.js"
+  ]
+}
+

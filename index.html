@@ -112,6 +112,31 @@ attribute name is based on the ratio name with all non-alphanumerics removed. So
 <code>data-2times</code>.</p>
 
 <h2>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h2>
+
+<p>This image should be replaced with a hi-res image depending on the minimum device
+pixel ratio you choose below (default on load is 1.5, use 1 to see the effect
+on low-res devices):</p>
+
+<p>
+<img alt="" class="dips" src="images/512x348.jpg" width="512" height="348">
+</p>
+
+<form id="set-dip-ratio-threshold" action="" method="get">
+	<p>
+	<label>Dip threshold for @2x:</label>
+	<input type="radio" name="dip-threshold" value="1" id="dip-ratio-1">
+	<label for="dip-ratio-1">1</label>
+	<input type="radio" name="dip-threshold" value="1.5" id="dip-ratio-15"
+	checked="checked">
+	<label for="dip-ratio-15">1.5</label>
+	<input type="radio" name="dip-threshold" value="2" id="dip-ratio-2">
+	<label for="dip-ratio-2">2</label>
+	<button type="submit">Set Threshold</button>
+	</p>
+</form>
+
+<h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>Copyright 2013 Paul Willoughby</p>
@@ -128,7 +153,9 @@ attribute name is based on the ratio name with all non-alphanumerics removed. So
       </footer>
     </div>
 
-    
+		<script src="components/imgdips.js/imgdips.js"></script>
+		<script src="components/jquery/jquery.min.js"></script>
+		<script src="javascripts/main.js"></script>
 
   </body>
 </html>
