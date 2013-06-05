@@ -14,7 +14,13 @@
 	 */
 	function reset(){
 		$('img.dips').each(function(i, img) {
-			$(img).attr('src', $(img).data('original-src'));
+			var $img = $(img),
+				src = $(img).attr('src'),
+				originalSrc = $(img).data('original-src');
+
+			if(src != originalSrc) {
+				$img.attr('src', originalSrc);
+			}
 		});
 	}
 
