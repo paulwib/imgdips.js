@@ -70,11 +70,19 @@ ImgDips = (function() {
 		}
 		// Try and load alternate versions - if onload never fires, because 404 or
 		// not an image - then the src will never be set
-		var i, l;
-		for(i=0, l=imgs.length; i < l ; i++) {
-			var imgTag = imgs[i];
-			var src = imgTag.getAttribute('src').replace(/(\.[a-z]+$)/, fileSuffix + '$1');
-			var imgObject = new Image();
+		for(var i=0, l=imgs.length; i < l ; i++) {
+			var src,
+				imgTag = imgs[i],
+				attr = 'data-' + fileSuffix.replace(/[^A-Z0-9]/i, ''),
+				imgObject = new Image();
+
+			// Get src from data attribute or by renaming with file suffix
+			if(imgTag.hasAttribute(attr)) {
+				src = imgTag.getAttribute(attr);
+			}
+			else {
+				src = imgTag.getAttribute('src').replace(/(\.[a-z]+$)/, fileSuffix + '$1');
+			}
 			imgObject.onload = getSetImage(imgTag, src);
 			imgObject.src = src;
 		}

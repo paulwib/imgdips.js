@@ -25,7 +25,11 @@ It takes a slightly different approach to most libraries in two respects:
 ImgDips.init(options);
 ```
 
-Your images should have width and height attributes.
+By default it will attempt to replace images for all `img` tags with the class
+`dips` when the `window.devicePixelRatio` is greater than 1.5 by adding the
+file suffix `@2x`. Your images should have width and height attributes.
+
+You can also set the hi-res image URL with a `data-2x` attribute.
 
 ##Options:
 
@@ -42,3 +46,11 @@ Your images should have width and height attributes.
   }
 }
 ```
+In this case the alternate `data` attributes available would be `data-2x`,
+`data-4x` and `data-8x`.
+
+Changing suffixes may change the alternate `data` attributes available. The
+attribute name is based on the suffix with all non-alphanumerics removed. So
+`@2x`, `_2x` and `-2x` would all map to `data-2x`. But `@x2` would map to
+`data-x2`.
+

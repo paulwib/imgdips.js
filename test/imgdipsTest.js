@@ -14,6 +14,7 @@ module('Testing imgdips.js', {
 		$('<img id="hi-res" class="dips" src="test/images/512x384.jpg" title="This image exists and has a hi-res version" />').appendTo($fixture);
 		$('<img id="hi-res-class-missing" src="test/images/512x384.jpg" title="This image exists and has a hi-res version, but no class" />').appendTo($fixture);
 		$('<img id="missing-nested" class="dips" src="test/images/x/fred.jpg" title="This image does not exist" />').appendTo($fixture);
+		$('<img id="data-attr" class="dips" src="test/images/512x384.jpg" data-2x="test/images/2x/512x384.jpg" title="This image exists and has a hi-res version specified with data-2x attribute" />').appendTo($fixture);
 		// This one may depend on your server
 		$('<img id="not-img" class="dpimg" src="test/images/200x400.jpg" title="Hi-res exists, but is not actually an image" />').appendTo($fixture);
 	}
@@ -22,7 +23,7 @@ module('Testing imgdips.js', {
 // Async test as has to wait for the images to load (although should be near
 // instant when testing locally, may need to tweak timeout)
 asyncTest('Test replacements', function(){
-	expect(6);
+	expect(7);
 	// We're loading even when DIP ratio is >= 1 so works on any device
 	ImgDips.init({
 		pixelRatioSuffixes: {
@@ -35,6 +36,7 @@ asyncTest('Test replacements', function(){
 		ok($('#hi-res').attr('src').match(/@2x/), 'Found is replaced');
 		ok(!$('#hi-res-class-missing').attr('src').match(/@2x/), 'Missing hi-res class not replaced');
 		ok(!$('#missing-nested').attr('src').match(/@2x/), 'Missing nested not replaced');
+		ok($('#data-attr').attr('src').match(/\/2x\//), 'Found with data-attr is replaced');
 		ok(!$('#not-img').attr('src').match(/@2x/), 'Wrong mime-type not replaced');
 		start();
 	};
