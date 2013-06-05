@@ -19,7 +19,7 @@ module('Testing imgdips.js', {
 	}
 });
 
-// Async test as has to wit for the images to load (although should be near
+// Async test as has to wait for the images to load (although should be near
 // instant when testing locally, may need to tweak timeout)
 asyncTest('Test replacements', function(){
 	expect(6);
@@ -40,3 +40,38 @@ asyncTest('Test replacements', function(){
 	};
 	setTimeout(check, 100);
 });
+
+asyncTest('Test a different suffix', function(){
+	expect(2);
+	// We're loading even when DIP ratio is >= 1 so works on any device
+	ImgDips.init({
+		pixelRatioSuffixes: {
+			'_2x': 1
+		}
+	});
+	var check = function(){
+		ok(!$('#hi-res-missing').attr('src').match(/_2x/), 'Missing hi-res not replaced');
+		ok($('#hi-res').attr('src').match(/_2x/), 'Found is replaced');
+		start();
+	};
+	setTimeout(check, 100);
+});
+
+asyncTest('Test a different selector', function(){
+	expect(3);
+	// We're loading even when DIP ratio is >= 1 so works on any device
+	ImgDips.init({
+		selector: 'IMG',
+		pixelRatioSuffixes: {
+			'@2x': 1
+		}
+	});
+	var check = function(){
+		ok(!$('#missing').attr('src').match(/@2x/), 'Missing not replaced');
+		ok($('#hi-res').attr('src').match(/@2x/), 'Found is replaced');
+		ok($('#hi-res-class-missing').attr('src').match(/@2x/), 'No class but still replaced');
+		start();
+	};
+	setTimeout(check, 100);
+});
+
