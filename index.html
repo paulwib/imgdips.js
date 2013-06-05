@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="imgdips.js : Images for Device Independent Pixels" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>imgdips.js</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/paulwib/imgdips.js">View on GitHub</a>
+
+          <h1 id="project_title">imgdips.js</h1>
+          <h2 id="project_tagline">Images for Device Independent Pixels</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/paulwib/imgdips.js/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/paulwib/imgdips.js/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="imgdipsjs" class="anchor" href="#imgdipsjs"><span class="octicon octicon-link"></span></a>imgdips.js</h1>
+
+<p>Replace images on high DPI screens with high resolution alternatives based on
+device-independent-pixel (dips) ratios. The current device pixel ratio is
+normalized to a ratio name which is used as a file suffix or <code>data-*</code> attribute.</p>
+
+<p>It takes a slightly different approach to some other libraries:</p>
+
+<ol>
+<li>
+<p>JavaScript image objects are used to check for alternate images, rather than
+Ajax requests. This ensures everything works cross-domain (like when your
+images are on a CDN).</p>
+
+<p>There are also caching advantages over making an Ajax HEAD request. The
+HEAD request gets a quicker response, but if the image exists it needs
+another HTTP request to load the image and the same time to wait for it to
+load, so this isn't really an advantage. By using image objects the
+response (should) be cached, so only one HTTP request is needed.</p>
+</li>
+<li><p>Multiple ratio names can be mapped to different minimum device pixel
+ratios. Not only does this make testing on low DPI devices a bit easier it
+also future-proofs against the time when we need to support @2x, <a href="https://github.com/4x" class="user-mention">@4x</a> and
+@8x images :)</p></li>
+<li><p>It doesn't mention any Apple marketing terms like "retina screens". Damn.</p></li>
+</ol><h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Include the script however you prefer, then when the DOM is ready:</p>
+
+<div class="highlight"><pre><span class="nx">ImgDips</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+</pre></div>
+
+<p>By default it will attempt to replace the <code>src</code> for all <code>img</code> tags with the
+class <code>dips</code> when the <code>window.devicePixelRatio</code> is greater than 1.5 by adding
+the file suffix <code>@2x</code>. Your images should have width and height attributes.</p>
+
+<p>You can also set the hi-res image URL with a <code>data-2x</code> attribute.</p>
+
+<p>Note you don't have to wait until the DOM has fully loaded as there is no
+dependence on other libraries and the initial images don't have to be loaded.
+Running this script just before you're closing <code>BODY</code> tag should work (unless
+other scripts add more images).</p>
+
+<p>If any other script wants to access the currently used ratio name, for example
+a gallery that loads images dynamically, it can do:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">suffix</span> <span class="o">=</span> <span class="nx">ImgDips</span><span class="p">.</span><span class="nx">getRatioName</span><span class="p">();</span>
+</pre></div>
+
+<p>Or it can check the body tag's <code>data-dips-ratio-name</code>, for example with jQuery:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">suffix</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'body'</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">'dips-ratio-name'</span><span class="p">);</span>
+</pre></div>
+
+<h2>
+<a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>Options:</h2>
+
+<div class="highlight"><pre><span class="p">{</span>
+  <span class="c1">// Image CSS selector</span>
+  <span class="nx">selector</span><span class="o">:</span> <span class="s1">'.dips'</span><span class="p">,</span>
+
+  <span class="c1">// Normalize names to pixel ratios, the highest matched ratio will win</span>
+  <span class="nx">devicePixelRatioNames</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s1">'@2x'</span><span class="o">:</span> <span class="mf">1.5</span><span class="p">,</span>
+    <span class="s1">'@4x'</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s1">'@8x'</span><span class="o">:</span> <span class="mi">6</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>In this case the alternate <code>data</code> attributes available would be <code>data-2x</code>,
+<code>data-4x</code> and <code>data-8x</code>.</p>
+
+<p>Changing ratio names may change the alternate <code>data</code> attributes available. The
+attribute name is based on the ratio name with all non-alphanumerics removed. So
+<code>@2x</code>, <code>_2x</code> and <code>-2x</code> would all map to <code>data-2x</code>. But <code>@2times</code> would map to
+<code>data-2times</code>.</p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright 2013 Paul Willoughby</p>
+
+<p>Licensed under the MIT License</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">imgdips.js maintained by <a href="https://github.com/paulwib">paulwib</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
