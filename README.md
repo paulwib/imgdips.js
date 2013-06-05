@@ -63,7 +63,7 @@ var suffix = $('body').data('dips-ratio-name');
   // Image CSS selector
   selector: '.dips',
 
-  // Map suffixes to pixel ratios, the highest matched ratio will win
+  // Normalize names to pixel ratios, the highest matched ratio will win
   devicePixelRatioNames: {
     '@2x': 1.5,
     '@4x': 3,
