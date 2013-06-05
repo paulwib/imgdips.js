@@ -11,12 +11,12 @@ module('Testing imgdips.js', {
 		var $fixture = $('#qunit-fixture');
 		$('<img id="missing" class="dips" src="test/images/missing.jpg" title="This image does not exist at all" />').appendTo($fixture);
 		$('<img id="hi-res-missing" class="dips" src="test/images/bar.jpg" title="This image exists but has no hi-res version" />').appendTo($fixture);
-		$('<img id="hi-res" class="dips" src="test/images/512x384.jpg" title="This image exists and has a hi-res version" />').appendTo($fixture);
-		$('<img id="hi-res-class-missing" src="test/images/512x384.jpg" title="This image exists and has a hi-res version, but no class" />').appendTo($fixture);
+		$('<img id="hi-res" class="dips" src="test/images/qux.jpg" title="This image exists and has a hi-res version" />').appendTo($fixture);
+		$('<img id="hi-res-class-missing" src="test/images/qux.jpg" title="This image exists and has a hi-res version, but no class" />').appendTo($fixture);
 		$('<img id="missing-nested" class="dips" src="test/images/x/fred.jpg" title="This image does not exist" />').appendTo($fixture);
-		$('<img id="data-attr" class="dips" src="test/images/512x384.jpg" data-2x="test/images/2x/512x384.jpg" title="This image exists and has a hi-res version specified with data-2x attribute" />').appendTo($fixture);
+		$('<img id="data-attr" class="dips" src="test/images/qux.jpg" data-2x="test/images/2x/qux.jpg" title="This image exists and has a hi-res version specified with data-2x attribute" />').appendTo($fixture);
 		// This one may depend on your server
-		$('<img id="not-img" class="dpimg" src="test/images/200x400.jpg" title="Hi-res exists, but is not actually an image" />').appendTo($fixture);
+		$('<img id="not-img" class="dpimg" src="test/images/foo.jpg" title="Hi-res exists, but is not actually an image" />').appendTo($fixture);
 	}
 });
 
