@@ -26,7 +26,7 @@ asyncTest('Test replacements', function(){
 	expect(7);
 	// We're loading even when DIP ratio is >= 1 so works on any device
 	ImgDips.init({
-		pixelRatioSuffixes: {
+		devicePixelRatioNames: {
 			'@2x': 1
 		}
 	});
@@ -43,11 +43,11 @@ asyncTest('Test replacements', function(){
 	setTimeout(check, 100);
 });
 
-asyncTest('Test a different suffix', function(){
+asyncTest('Test a different ratio name', function(){
 	expect(2);
 	// We're loading even when DIP ratio is >= 1 so works on any device
 	ImgDips.init({
-		pixelRatioSuffixes: {
+		devicePixelRatioNames: {
 			'_2x': 1
 		}
 	});
@@ -64,7 +64,7 @@ asyncTest('Test a different selector', function(){
 	// We're loading even when DIP ratio is >= 1 so works on any device
 	ImgDips.init({
 		selector: 'IMG',
-		pixelRatioSuffixes: {
+		devicePixelRatioNames: {
 			'@2x': 1
 		}
 	});
@@ -77,16 +77,16 @@ asyncTest('Test a different selector', function(){
 	setTimeout(check, 100);
 });
 
-test('Test getting suffix', function(){
+test('Test getting ratio name', function(){
 	// We're loading even when DIP ratio is >= 1 so works on any device
 	ImgDips.init({
 		selector: 'IMG',
-		pixelRatioSuffixes: {
+		devicePixelRatioNames: {
 			'@1x': 1,
 			'@2x': 1.5,
 			'@4x': 3
 		}
 	});
-	equal(ImgDips.getSuffix(), '@1x', 'getSuffix() returns suffix');
-	equal($('body').data('dips-suffix'), '@1x', 'Current suffix stored in data attribute on body');
+	equal(ImgDips.getRatioName(), '@1x', 'getRatioName() returns current ratio name');
+	equal($('body').data('dips-ratio-name'), '@1x', 'Current ratio name stored in data attribute on body');
 });

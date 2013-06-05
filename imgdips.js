@@ -6,16 +6,20 @@
  */
 ImgDips = (function() {
 
-	var fileSuffix, settings = {
+	var ratioName, settings = {
 		// Image selector
 		selector: '.dips',
-		// Map suffixes to pixel ratios, the highest matched ratio will win
-		pixelRatioSuffixes: {
+		// Map names to pixel ratios, the highest matched ratio will win
+		devicePixelRatioNames: {
 			'@2x': 1.5
 		}
 	};
 
-	// @todo Would be good if you could pass a list of elements
+	/**
+	 * Initialize
+	 *
+	 * @param {object} options Override default settings
+	 */
 	function init(options) {
 
 		// Nothing to do for old browsers
@@ -30,50 +34,51 @@ ImgDips = (function() {
 			}
 		}
 
-		fileSuffix = pickFileSuffix(settings.pixelRatioSuffixes);
-		if(!fileSuffix){
+		ratioName = pickRatioName(settings.devicePixelRatioNames);
+		if(!ratioName){
 			return false;
 		}
-		document.getElementsByTagName('body')[0].setAttribute('data-dips-suffix', fileSuffix);
-		return swapImages(settings.selector, fileSuffix);
+		document.getElementsByTagName('body')[0].setAttribute('data-dips-ratio-name', ratioName);
+		return swapImages(settings.selector, ratioName);
 	}
 
 	/**
-	 * Pick the suffix to use based on the current devicePixelRatio.
-	 * Suffixes look like { '@2x': 1.5 } where suffix: min devicePixelratio.
-	 * Will pick the suffix for the highest supported ratio.
+	 * Pick the ratio name to use based on the current devicePixelRatio.
+	 * Ratio names look like { '@2x': 1.5 } where name: min devicePixelRatio.
+	 * Will pick the names for the highest supported ratio.
 	 *
-	 * @param {object} suffixes
+	 * @param {object} names
 	 */
-	function pickFileSuffix(suffixes) {
-		var useSuffix = false, useRatio = 0;
-		for(var suffix in suffixes) {
-			var ratio = suffixes[suffix];
-			if(isPixelRatioGreaterThan(ratio) && ratio > useRatio) {
-				useSuffix = suffix;
-				useRatio = ratio;
+	function pickRatioName(names) {
+		var useName = false, minRatio = 0;
+		for(var name in names) {
+			var ratio = names[name];
+			if(isPixelRatioGreaterThan(ratio) && ratio > minRatio) {
+				useName = name;
+				minRatio = ratio;
 			}
 		}
-		return useSuffix;
+		return useName;
 	}
 
 	/**
-	 * Get the file suffix
+	 * Get the current ratio name
 	 *
 	 * Useful for other scripts to access without having to run all these
 	 * kind of tests again.
 	 */
-	function getSuffix() {
-		return fileSuffix;
+	function getRatioName() {
+		return ratioName;
 	}
 
 	/**
-	 * Swap images to equivalent with file suffix if it exists
+	 * Swap images to equivalent with file suffix if it exists, or
+	 * URL in data atrribute.
 	 *
 	 * @param {string} selector
-	 * @param {string} fileSuffix
+	 * @param {string} ratioName
 	 */
-	function swapImages(selector, fileSuffix) {
+	function swapImages(selector, ratioName) {
 		// Get images - relevant browsers will support querySelectorAll
 		var imgs = document.querySelectorAll(settings.selector);
 		if(imgs.length === 0) {
@@ -84,7 +89,7 @@ ImgDips = (function() {
 		for(var i=0, l=imgs.length; i < l ; i++) {
 			var src,
 				imgTag = imgs[i],
-				attr = 'data-' + fileSuffix.replace(/[^A-Z0-9]/i, ''),
+				attr = 'data-' + ratioName.replace(/[^A-Z0-9]/i, ''),
 				imgObject = new Image();
 
 			// Get src from data attribute or by renaming with file suffix
@@ -92,7 +97,7 @@ ImgDips = (function() {
 				src = imgTag.getAttribute(attr);
 			}
 			else {
-				src = imgTag.getAttribute('src').replace(/(\.[a-z]+$)/, fileSuffix + '$1');
+				src = imgTag.getAttribute('src').replace(/(\.[a-z]+$)/, ratioName + '$1');
 			}
 			imgObject.onload = getSetImage(imgTag, src);
 			imgObject.src = src;
@@ -135,7 +140,7 @@ ImgDips = (function() {
 	// Return public interface
 	return {
 		init: init,
-		getSuffix: getSuffix
+		getRatioName: getRatioName
 	};
 
 })();
