@@ -45,12 +45,16 @@ normalized to a ratio name which is used as a file suffix or <code>data-*</code>
 <div class="highlight"><pre><span class="nx">ImgDips</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
 </pre></div>
 
-<p>By default it will attempt to replace the <code>src</code> for all <code>img</code> tags with the
-class <code>dips</code> when the <code>window.devicePixelRatio</code> is greater than 1.5 by adding
-the file suffix <code>@2x</code>. Your images should have width and height attributes.</p>
+<p>With the default settings, if the <code>devicePixelRatio</code> is &gt; 1.5
+it sets the ratio name to <code>@2x</code>.  For all images matching the
+selector <code>img.dips</code> it will get the hi-res image URL from either a
+<code>data-2x</code> attribute, or if that doesn't exist by appending
+<code>@2x</code> to the base file name i.e. <code>foo.jpg</code> becomes
+<code>foo@2x.jpg</code>.</p>
 
-<p>You can also set the hi-res image URL with a <code>data-2x</code> attribute.</p>
-
+<p>It then attempts to load the hi-res URL into an image object. If it loads
+successfully the tag's <code>src</code> attribute will be changed. The width and height
+attributes aren't touched - they need to be set in the source.</p>
 <p>If another script wants to access the currently used ratio name, for example
 a gallery that loads images dynamically, it can do:</p>
 
