@@ -12,10 +12,10 @@ Include the script however you prefer, then when the DOM is ready:
 ImgDips.init(options);
 ```
 
-By default if the `devicePixelRatio` is > 1.5 it sets the ratio name to `@2x`.
-For all images matching the selector `img.dips` it will get the hi-res image
-URL from either a `data-2x` attribute, or if that doesn't exist by appending
-`@2x` to the base file name i.e. `foo.jpg` becomes `foo@2x.jpg`.
+With the default settings, if the `devicePixelRatio` is > 1.5 it sets the ratio
+name to `@2x`.  For all images matching the selector `img.dips` it will get the
+hi-res image URL from either a `data-2x` attribute, or if that doesn't exist by
+appending `@2x` to the base file name i.e. `foo.jpg` becomes `foo@2x.jpg`.
 
 It then attempts to load the hi-res URL into an image object. If it loads
 successfully the tag's `src` attribute will be changed. The width and height
